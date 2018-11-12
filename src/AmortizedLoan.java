@@ -45,7 +45,12 @@ public class AmortizedLoan extends Loan{
 		return "Full Amortized Loan";
 	}
 
-
+	/*****************************************************************
+    Compares the name on this loan to that of another loan.
+    @param other the loan to compare names with
+    @return an integer indicating if the name goes before or after the
+    other name
+    *****************************************************************/
 	public int compareTo(Object other) {
 		if (other instanceof Loan) {
 			Loan otherLoan = (Loan) other;
