@@ -8,7 +8,7 @@ interest and fully amortized loans.
 @version Fall 2018
 *****************************************************************/
 
-public abstract class Loan implements Comparable {
+public abstract class Loan implements Comparable<Loan> {
 
 	/** name of applicant */
 	protected String name;

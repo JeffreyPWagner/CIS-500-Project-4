@@ -48,14 +48,7 @@ public class SimpleLoan extends Loan {
     @return an integer indicating if the name goes before or after the
     other name
     *****************************************************************/
-	public int compareTo(Object other) {
-		if (other instanceof Loan) {
-			Loan otherLoan = (Loan) other;
-			return name.compareTo(otherLoan.name);
-		}
-		else {
-			System.out.println("Object is not a loan, returning 0");
-			return 0;
-		}
+	public int compareTo(Loan other) {
+		return name.compareTo(other.name);
 	}
 }
