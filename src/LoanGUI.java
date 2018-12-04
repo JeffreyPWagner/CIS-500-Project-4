@@ -52,6 +52,8 @@ public class LoanGUI extends JFrame implements ActionListener {
         setJMenuBar(menu);
         menu.add(file);
         
+        
+        
 
 	}
 	
