@@ -44,6 +44,46 @@ public abstract class Loan implements Comparable {
 	}
 	
 	
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+
+	/**
+	 * @return the interestRate
+	 */
+	public double getInterestRate() {
+		return interestRate;
+	}
+
+
+	/**
+	 * @return the length
+	 */
+	public int getLength() {
+		return length;
+	}
+
+
+	/**
+	 * @return the principle
+	 */
+	public double getPrinciple() {
+		return principle;
+	}
+
+
+	/**
+	 * @return the monthlyPayment
+	 */
+	public double getMonthlyPayment() {
+		return monthlyPayment;
+	}
+
+
 	/*****************************************************************
     Compares the name on this loan to that of another loan.
     @param other the loan to compare names with
