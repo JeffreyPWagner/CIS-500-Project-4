@@ -16,14 +16,11 @@ public class LoanManager {
 		loans = new ArrayList<Loan>();
 	}
 	
-	
-	public void add(String name, double rate, int length, double amount, String type) {
-		if (type.equalsIgnoreCase("si"))
+	public void add(String name, double rate, int length, double amount, boolean simpleInterest) {
+		if (simpleInterest)
 			loans.add(new SimpleLoan(name, rate, length, amount));
-		else if (type.equalsIgnoreCase("al"))
-			loans.add(new AmortizedLoan(name, rate, length, amount));
 		else
-			System.out.println("Invalid loan type");
+			loans.add(new AmortizedLoan(name, rate, length, amount));
 	}
 	
 	public Loan search (String name) {
@@ -34,6 +31,8 @@ public class LoanManager {
 		}
 		return null;
 	}
+	
+	
 	
 	//TODO
 	public void delete(Loan l) {

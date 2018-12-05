@@ -1,9 +1,11 @@
 import javax.swing.*;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.awt.event.*;
 import java.awt.*;
 
 
+@SuppressWarnings("serial")
 public class LoanGUI extends JFrame implements ActionListener {
 
 	LoanManager manager = null;
@@ -31,8 +33,8 @@ public class LoanGUI extends JFrame implements ActionListener {
 	JButton delete = null;
 	JButton clear = null;
 	
-	JComboBox<Integer> rate = null;
-	Integer[] rates = {3, 4, 5, 6, 7};
+	JComboBox<Double> rate = null;
+	Double[] rates = {3.00, 4.00, 5.00, 6.00, 7.00};
 	
 	GridBagConstraints loc = null;
 	int column = 0;
@@ -43,6 +45,10 @@ public class LoanGUI extends JFrame implements ActionListener {
     int rightIns = 10;
     
     Loan currentLoan = null;
+    int currentLength;
+    double currentPrinciple;
+    
+    DecimalFormat formatter = new DecimalFormat("#.00");
 	
 	public LoanGUI() {
         manager = new LoanManager();
@@ -116,7 +122,7 @@ public class LoanGUI extends JFrame implements ActionListener {
         loc.gridy = row + 5;  
         add(payment, loc);
 
-        rate = new JComboBox<Integer>(rates);
+        rate = new JComboBox<Double>(rates);
         loc.gridy = row + 4;  
         add(rate, loc);
         
@@ -147,20 +153,51 @@ public class LoanGUI extends JFrame implements ActionListener {
         clear.addActionListener(this);
         add(clear, loc);
         
-        manager.add("Jeff",3,7,1000,"si");
+        manager.add("Jeff",3 ,15 ,100000, true);
 	}
 	
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == search) {
+	public void actionPerformed(ActionEvent event) {
+		if (event.getSource() == search) {
 			currentLoan = manager.search(name.getText());
 			if (currentLoan != null) {
-				principle.setText(currentLoan.getPrinciple() + "");
+				principle.setText(formatter.format(currentLoan.getPrinciple()) + "");
 				length.setText(currentLoan.getLength() + "");
 				rate.setSelectedIndex((int) (currentLoan.getInterestRate() - rates[0]));
-				payment.setText(currentLoan.getMonthlyPayment() + "");
+				payment.setText(formatter.format(currentLoan.getMonthlyPayment()) + "");
+				if (currentLoan instanceof SimpleLoan)
+					simpleInterest.setSelected(true);
+				else
+					amortized.setSelected(true);
 			}
 			else
 				JOptionPane.showMessageDialog(null, "Loan not found");
+		}
+		
+		if (event.getSource() == calculate) {
+			try {
+				currentPrinciple = Double.parseDouble(principle.getText());
+				currentLength = Integer.parseInt(length.getText());
+				if (simpleInterest.isSelected())
+					currentLoan = new SimpleLoan(name.getText(), (double) rate.getSelectedItem(), currentLength, currentPrinciple);
+				else if (amortized.isSelected())
+					currentLoan = new AmortizedLoan(name.getText(), (double) rate.getSelectedItem(), currentLength, currentPrinciple);
+				else JOptionPane.showMessageDialog(null, "Must select loan type");
+				payment.setText(formatter.format(currentLoan.getMonthlyPayment()) + "");
+			}
+			catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Invalid Inputs");
+			}
+		}
+		
+		if (event.getSource() == add) {
+			try {
+				currentPrinciple = Double.parseDouble(principle.getText());
+				currentLength = Integer.parseInt(length.getText());
+				manager.add(name.getText(), (double) rate.getSelectedItem(), currentLength, currentPrinciple, simpleInterest.isSelected());
+			}
+			catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Invalid Inputs");
+			}
 		}
 	}
 	

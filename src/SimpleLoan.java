@@ -16,6 +16,7 @@ public class SimpleLoan extends Loan {
     *****************************************************************/
 	public SimpleLoan(String name, double rate, int years, double amount) {
 		super(name, rate, years, amount);
+		calcMonthlyPayment();
 	}
 
 	
@@ -25,7 +26,7 @@ public class SimpleLoan extends Loan {
 	public void calcMonthlyPayment() {
 		
 		/** monthly interest rate */
-		double monthlyInterest = interestRate / 12;
+		double monthlyInterest = interestRate / 100 / 12;
 		
 		/** length of the loan in months */
 		int lengthMonths = length * 12;
