@@ -26,8 +26,12 @@ public class LoanManager {
 			System.out.println("Invalid loan type");
 	}
 	
-	//TODO
 	public Loan search (String name) {
+		for (Loan l: loans) {
+			if (l.getName().equalsIgnoreCase(name)) {
+				return l;
+			}
+		}
 		return null;
 	}
 	
