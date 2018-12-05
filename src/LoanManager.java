@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.FileWriter;
 
 /*****************************************************************
 Loan management system for use with gui.
@@ -63,8 +64,18 @@ public class LoanManager {
 	
 	//TODO
 	public void save() {
-		Collections.sort(loans);
-		
+		try {
+			Collections.sort(loans);
+			FileWriter writer = new FileWriter("Loans.txt");
+			for (Loan l: loans) {
+				writer.write(l.toString());
+				writer.write(System.getProperty("line.separator"));
+			}
+			writer.close();
+		}
+		catch (Exception e){
+			throw new RuntimeException(e);
+		}
 	}
 	
 	//TODO

@@ -119,12 +119,4 @@ public abstract class Loan implements Comparable<Loan> {
 		return "Name: " + name + "\nInterest Rate: " + String.format("%.2f%%",interestRate*100) + "\nLength: " + length + "\nAmount: "
 				+ formatter.format(principle) + "\nPayment: " + formatter.format(monthlyPayment);
 	}
-	
-	
-	/*****************************************************************
-	Converts the loan to a printable string
-	*****************************************************************/
-	public String toString() {
-		return "Loan";
-	}
 }

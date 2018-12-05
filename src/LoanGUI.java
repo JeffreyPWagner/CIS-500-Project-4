@@ -247,6 +247,10 @@ public class LoanGUI extends JFrame implements ActionListener {
 			summaryWindow.add(totalPrinc);
 			JOptionPane.showMessageDialog(null, summaryWindow);
 		}
+		
+		if (event.getSource() == save) {
+			manager.save();
+		}
 	}
 	
 	private void resetFields() {
