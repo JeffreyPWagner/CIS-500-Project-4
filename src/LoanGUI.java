@@ -169,8 +169,13 @@ public class LoanGUI extends JFrame implements ActionListener {
 				else
 					amortized.setSelected(true);
 			}
-			else
+			else {
 				JOptionPane.showMessageDialog(null, "Loan not found");
+				principle.setText("");
+				length.setText("");
+				payment.setText("");
+				rate.setSelectedIndex(0);
+			}
 		}
 		
 		if (event.getSource() == calculate) {
@@ -191,14 +196,38 @@ public class LoanGUI extends JFrame implements ActionListener {
 		
 		if (event.getSource() == add) {
 			try {
-				currentPrinciple = Double.parseDouble(principle.getText());
-				currentLength = Integer.parseInt(length.getText());
-				manager.add(name.getText(), (double) rate.getSelectedItem(), currentLength, currentPrinciple, simpleInterest.isSelected());
+				if (simpleInterest.isSelected() || amortized.isSelected()) {
+					currentPrinciple = Double.parseDouble(principle.getText());
+					currentLength = Integer.parseInt(length.getText());
+					manager.add(name.getText(), (double) rate.getSelectedItem(), currentLength, currentPrinciple, simpleInterest.isSelected());
+					payment.setText(formatter.format(manager.search(name.getText()).getMonthlyPayment()));
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Must select loan type");
 			}
 			catch (Exception e) {
 				JOptionPane.showMessageDialog(null, "Invalid Inputs");
 			}
 		}
+		
+		if (event.getSource() == delete) {
+			if (!manager.delete(name.getText()))
+				JOptionPane.showMessageDialog(null, "Loan not found");
+			resetFields();
+			
+		}
+		
+		if (event.getSource() == clear) {
+			resetFields();
+		}
+	}
+	
+	private void resetFields() {
+		name.setText("");
+		principle.setText("");
+		length.setText("");
+		payment.setText("");
+		rate.setSelectedIndex(0);
 	}
 	
 	public static void main (String Args[]) {

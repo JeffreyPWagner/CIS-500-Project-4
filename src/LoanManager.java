@@ -32,10 +32,8 @@ public class LoanManager {
 		return null;
 	}
 	
-	
-	
-	//TODO
-	public void delete(Loan l) {
+	public boolean delete(String name) {
+		return loans.remove(search(name));
 	}
 	
 	//TODO
