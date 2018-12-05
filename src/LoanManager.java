@@ -63,6 +63,8 @@ public class LoanManager {
 	
 	//TODO
 	public void save() {
+		Collections.sort(loans);
+		
 	}
 	
 	//TODO
