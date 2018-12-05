@@ -61,7 +61,7 @@ public class LoanGUI extends JFrame implements ActionListener {
         manager = new LoanManager();
         
         setLayout(new GridBagLayout());
-        GridBagConstraints loc = null;
+        GridBagConstraints loc = new GridBagConstraints();
         
         file = new JMenu("File");
         save = new JMenuItem("Save");
@@ -78,7 +78,6 @@ public class LoanGUI extends JFrame implements ActionListener {
         menu.add(file);
         
         simpleInterest = new JRadioButton("Simple Interest");
-        loc = new GridBagConstraints();
         loc.gridx = column + 1;
         loc.gridy = row;  
         loc.insets = new Insets(topIns, leftIns, botIns, rightIns);
