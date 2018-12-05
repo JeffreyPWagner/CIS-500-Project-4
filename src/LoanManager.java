@@ -36,19 +36,29 @@ public class LoanManager {
 		return loans.remove(search(name));
 	}
 	
-	//TODO
 	public int countSimple() {
-		return 0;
+		int count = 0;
+		for (Loan l: loans) {
+			if (l instanceof SimpleLoan)
+				count++;
+		}
+		return count;
 	}
 	
-	//TODO
 	public int countAmor() {
-		return 0;
+		return countTotal() - countSimple();
 	}
 	
-	//TODO
+	public int countTotal() {
+		return loans.size();
+	}
+	
 	public double calcTotal() {
-		return 0;
+		double total = 0;
+		for (Loan l: loans) {
+			total += l.getPrinciple();
+		}
+		return total;
 	}
 	
 	//TODO

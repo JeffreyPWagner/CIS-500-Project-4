@@ -16,6 +16,12 @@ public class LoanGUI extends JFrame implements ActionListener {
 	JMenuItem load = null;
 	JMenuItem summary = null;
 	
+	JPanel summaryWindow = null;
+	JLabel totalLoans = null;
+	JLabel totalSimple = null;
+	JLabel totalAmort = null;
+	JLabel totalPrinc = null;
+	
 	JRadioButton simpleInterest = null;
 	JRadioButton amortized = null;
 	ButtonGroup buttGroup = null;
@@ -25,7 +31,8 @@ public class LoanGUI extends JFrame implements ActionListener {
 	JTextField name = null;
 	JTextField principle = null;
 	JTextField length = null;
-	JTextField payment = null;
+	
+	JLabel payment = null;
 	
 	JButton search = null;
 	JButton calculate = null;
@@ -118,7 +125,7 @@ public class LoanGUI extends JFrame implements ActionListener {
         loc.gridy = row + 3;  
         add(length, loc);
         
-        payment = new JTextField(15);
+        payment = new JLabel();
         loc.gridy = row + 5;  
         add(payment, loc);
 
@@ -175,6 +182,7 @@ public class LoanGUI extends JFrame implements ActionListener {
 				length.setText("");
 				payment.setText("");
 				rate.setSelectedIndex(0);
+				buttGroup.clearSelection();
 			}
 		}
 		
@@ -211,14 +219,33 @@ public class LoanGUI extends JFrame implements ActionListener {
 		}
 		
 		if (event.getSource() == delete) {
-			if (!manager.delete(name.getText()))
+			if (manager.search(name.getText()) == null)
 				JOptionPane.showMessageDialog(null, "Loan not found");
-			resetFields();
+			else {
+				int yesNo = JOptionPane.YES_NO_OPTION;
+				if (JOptionPane.showConfirmDialog(null, "Delete loan?", "", yesNo) == 0) {
+					manager.delete(name.getText());
+					resetFields();
+				}
+			}
 			
 		}
 		
 		if (event.getSource() == clear) {
 			resetFields();
+		}
+		
+		if (event.getSource() == summary) {
+			totalLoans = new JLabel("Total loans: " + manager.countTotal());
+			totalSimple = new JLabel("Total simple interest loans: " + manager.countSimple());
+			totalAmort = new JLabel("Total amortized loans: " + manager.countAmor());
+			totalPrinc = new JLabel("Total loan principle: " + formatter.format(manager.calcTotal()));
+			summaryWindow = new JPanel(new GridLayout(4,1));
+			summaryWindow.add(totalLoans);
+			summaryWindow.add(totalSimple);
+			summaryWindow.add(totalAmort);
+			summaryWindow.add(totalPrinc);
+			JOptionPane.showMessageDialog(null, summaryWindow);
 		}
 	}
 	
@@ -228,6 +255,7 @@ public class LoanGUI extends JFrame implements ActionListener {
 		length.setText("");
 		payment.setText("");
 		rate.setSelectedIndex(0);
+		buttGroup.clearSelection();
 	}
 	
 	public static void main (String Args[]) {
