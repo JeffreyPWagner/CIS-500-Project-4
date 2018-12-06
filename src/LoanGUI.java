@@ -111,6 +111,7 @@ public class LoanGUI extends JFrame implements ActionListener {
         row = 0;
         
         name = new JTextField(15);
+        name.addActionListener(this);
         loc.gridx = column + 1;
         loc.gridy = row + 1;  
         loc.gridwidth = 2;
@@ -159,8 +160,6 @@ public class LoanGUI extends JFrame implements ActionListener {
         loc.gridy = row + 5;  
         clear.addActionListener(this);
         add(clear, loc);
-        
-        manager.add("Jeff",3 ,15 ,100000, true);
 	}
 	
 	public void actionPerformed(ActionEvent event) {
@@ -228,7 +227,6 @@ public class LoanGUI extends JFrame implements ActionListener {
 					resetFields();
 				}
 			}
-			
 		}
 		
 		if (event.getSource() == clear) {
@@ -250,6 +248,14 @@ public class LoanGUI extends JFrame implements ActionListener {
 		
 		if (event.getSource() == save) {
 			manager.save();
+		}
+		
+		if (event.getSource() == load) {
+			manager.load();
+		}
+		
+		if (event.getSource() == name) {
+			search.setEnabled(false);
 		}
 	}
 	
