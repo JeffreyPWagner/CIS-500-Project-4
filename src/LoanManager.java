@@ -1,5 +1,5 @@
 import java.util.*;
-import java.io.FileWriter;
+import java.io.*;
 
 /*****************************************************************
 Loan management system for use with gui.
@@ -62,14 +62,12 @@ public class LoanManager {
 		return total;
 	}
 	
-	//TODO
 	public void save() {
 		try {
 			Collections.sort(loans);
 			FileWriter writer = new FileWriter("Loans.txt");
 			for (Loan l: loans) {
 				writer.write(l.toString());
-				writer.write(System.getProperty("line.separator"));
 			}
 			writer.close();
 		}
@@ -78,7 +76,28 @@ public class LoanManager {
 		}
 	}
 	
-	//TODO
 	public void load() {
+		try {
+			FileReader reader = new FileReader("Loans.txt");
+			BufferedReader buffReader = new BufferedReader(reader);
+			String readName;
+			while ((readName = buffReader.readLine()) != null && !readName.equals("")) {
+				String readPrin = buffReader.readLine();
+				String readLength = buffReader.readLine();
+				String readRate = buffReader.readLine();
+				String readPay = buffReader.readLine();
+				String readType = buffReader.readLine();
+				
+				if (readType.equals("simple interest"))
+					loans.add(new SimpleLoan(readName, Double.parseDouble(readRate), Integer.parseInt(readLength), Double.parseDouble(readPrin)));
+				else
+					loans.add(new AmortizedLoan(readName, Double.parseDouble(readRate), Integer.parseInt(readLength), Double.parseDouble(readPrin)));
+			}
+			buffReader.close();
+			reader.close();
+		}
+		catch (Exception e){
+			throw new RuntimeException(e);
+		}
 	}
 }

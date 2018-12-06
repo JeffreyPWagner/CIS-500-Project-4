@@ -39,7 +39,7 @@ public class SimpleLoan extends Loan {
 	Converts the loan to a printable string
 	*****************************************************************/
 	public String toString() {
-		return name + "\r\n" + principle + "\r\n" + length + "\r\n" + interestRate + "\r\n" + monthlyPayment + "\r\n";
+		return name + "\r\n" + principle + "\r\n" + length + "\r\n" + interestRate + "\r\n" + monthlyPayment + "\r\n" + "simple interest\r\n";
 	}
 	
 	
