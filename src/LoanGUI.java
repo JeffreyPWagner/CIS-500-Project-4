@@ -4,10 +4,17 @@ import java.util.*;
 import java.awt.event.*;
 import java.awt.*;
 
+/*****************************************************************
+Loan management GUI for use with management system
+
+@author Jeffrey Wagner
+@version Fall 2018
+*****************************************************************/
 
 @SuppressWarnings("serial")
 public class LoanGUI extends JFrame implements ActionListener {
 
+	//declaring all GUI components, grouped by component type and function
 	LoanManager manager = null;
 
 	JMenuBar menu = null;
@@ -41,6 +48,8 @@ public class LoanGUI extends JFrame implements ActionListener {
 	JButton clear = null;
 	
 	JComboBox<Double> rate = null;
+	
+	/** Array of rates for loans */
 	Double[] rates = {3.00, 4.00, 5.00, 6.00, 7.00};
 	
 	GridBagConstraints loc = null;
@@ -51,20 +60,28 @@ public class LoanGUI extends JFrame implements ActionListener {
     int botIns = 5;
     int rightIns = 10;
     
+    /** Temporary loan used to display data and calculate payments */
     Loan currentLoan = null;
     int currentLength;
     double currentPrinciple;
     
     DecimalFormat formatter = new DecimalFormat("#.00");
 	
+    
+    /*****************************************************************
+    Constructor creates a new GUI
+    *****************************************************************/
 	public LoanGUI() {
+		
+		//instantiate loan manager
         manager = new LoanManager();
         
+        //create gridbag layout
         setLayout(new GridBagLayout());
         GridBagConstraints loc = new GridBagConstraints();
         loc.insets = new Insets(topIns, leftIns, botIns, rightIns);
 
-        
+        //create file menu
         file = new JMenu("File");
         save = new JMenuItem("Save");
         save.addActionListener(this);
@@ -79,6 +96,7 @@ public class LoanGUI extends JFrame implements ActionListener {
         setJMenuBar(menu);
         menu.add(file);
         
+        //add radio buttons for loan types
         simpleInterest = new JRadioButton("Simple Interest");
         loc.gridx = column + 1;
         loc.gridy = row;  
@@ -92,6 +110,7 @@ public class LoanGUI extends JFrame implements ActionListener {
         buttGroup.add(simpleInterest);
         buttGroup.add(amortized);
         
+        //add labels for various fields
         labels = new ArrayList<JLabel>();
         labels.add(new JLabel("Loan Type"));
         labels.add(new JLabel("Name"));
@@ -110,6 +129,7 @@ public class LoanGUI extends JFrame implements ActionListener {
         
         row = 0;
         
+        //add text fields for data entry
         name = new JTextField(15);
         name.addActionListener(this);
         loc.gridx = column + 1;
@@ -126,14 +146,17 @@ public class LoanGUI extends JFrame implements ActionListener {
         loc.gridy = row + 3;  
         add(length, loc);
         
+        //add payment label
         payment = new JLabel();
         loc.gridy = row + 5;  
         add(payment, loc);
 
+        //add combobox for rates
         rate = new JComboBox<Double>(rates);
         loc.gridy = row + 4;  
         add(rate, loc);
         
+        //add buttons for functionality
         search = new JButton("Search");
         loc.gridx = column + 3;
         loc.gridy = row + 1; 
@@ -161,7 +184,10 @@ public class LoanGUI extends JFrame implements ActionListener {
         clear.addActionListener(this);
         add(clear, loc);
 	}
-	
+	/*****************************************************************
+    Listens for events from GUI and takes appropriate action
+    @param event the event passed from the GUI
+    *****************************************************************/
 	public void actionPerformed(ActionEvent event) {
 		if (event.getSource() == search) {
 			currentLoan = manager.search(name.getText());
@@ -259,6 +285,10 @@ public class LoanGUI extends JFrame implements ActionListener {
 		}
 	}
 	
+	
+	/*****************************************************************
+    Resets the data fields shown in the GUI
+    *****************************************************************/
 	private void resetFields() {
 		name.setText("");
 		principle.setText("");
