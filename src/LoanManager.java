@@ -62,7 +62,6 @@ public class LoanManager {
 		return total;
 	}
 	
-	//TODO
 	public void save() {
 		try {
 			Collections.sort(loans);
